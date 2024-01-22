@@ -134,3 +134,4 @@ wsproto==1.2.0
 xlrd==2.0.1
 yfinance==0.2.35
 zipp==3.17.0
+xlsxwriter
