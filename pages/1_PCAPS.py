@@ -103,11 +103,14 @@ def calculadora_propriedades(arquivo_imagem,pixels, mm):
         def formatar(valor):
             return '{:,.2f}'.format(valor)
 
-        descricao = df.describe()
+        descricao = df.describe(percentiles=[0.1, 0.25, 0.5, 0.75, 0.9])
         descricao['Área (µm²)'] = descricao['Área (µm²)'].apply(formatar)
         descricao['Diâmetro (µm)'] = descricao['Diâmetro (µm)'].apply(formatar)
-        
-        return img2, df, descricao, fig_boxplot,fig_hist 
+
+        pdi = (df['Diâmetro (µm)'].std() / df['Diâmetro (µm)'].mean()) ** 2
+        descricao.loc['PDI', 'Diâmetro (µm)'] = '{:.3f}'.format(pdi)
+
+        return img2, df, descricao, fig_boxplot,fig_hist
 
 
 

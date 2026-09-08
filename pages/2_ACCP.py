@@ -103,11 +103,14 @@ def properties_calculator(image_file, pixels, mm):
         def formatar(valor):
             return '{:,.2f}'.format(valor)
 
-        descricao = df.describe()
+        descricao = df.describe(percentiles=[0.1, 0.25, 0.5, 0.75, 0.9])
         descricao['Area (µm²)'] = descricao['Area (µm²)'].apply(formatar)
         descricao['Diameter (µm)'] = descricao['Diameter (µm)'].apply(formatar)
-        
-        return img2, df, descricao, fig_boxplot,fig_hist 
+
+        pdi = (df['Diameter (µm)'].std() / df['Diameter (µm)'].mean()) ** 2
+        descricao.loc['PDI', 'Diameter (µm)'] = '{:.3f}'.format(pdi)
+
+        return img2, df, descricao, fig_boxplot,fig_hist
 
 
 
